@@ -73,7 +73,7 @@ jobs:
 
       - name: Cache docs
         id: cache-docs
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: docs/${{ matrix.dir }}
           key: docs-${{ matrix.dir }}-${{ matrix.ref }}-${{ matrix.dev }}-${{ hashFiles('scripts/make-docs.sh') }}
