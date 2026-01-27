@@ -75,6 +75,10 @@ pushd build
 make -C doc/manual pdf
 make -C doc/manual latex2html
 clean_latex2html doc/manual/manual
+# Workaround for https://github.com/latex2html/latex2html/issues/89.
+# See also: https://github.com/form-dev/form/pull/789.
+# NOTE: -i requires GNU sed.
+sed -i ':a;N;$!ba; s#<STRONG>\([^<]*\)</STRONG>\n<BR>\n\([^<]*\)#<STRONG>\1 \2</STRONG>#' doc/manual/manual/index.html
 make_tarball doc/manual/manual "form-$version-manual-html"
 
 cp ../doc/form.1 doc/form.1
