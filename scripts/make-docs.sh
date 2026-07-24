@@ -81,10 +81,16 @@ clean_latex2html doc/manual/manual
 sed -i ':a;N;$!ba; s#<STRONG>\([^<]*\)</STRONG>\n<BR>\n\([^<]*\)#<STRONG>\1 \2</STRONG>#' doc/manual/manual/index.html
 make_tarball doc/manual/manual "form-$version-manual-html"
 
-cp ../doc/form.1 doc/form.1
-man -Tpdf ../doc/form.1 >doc/form.pdf
+if [ -f ../doc/form.1 ]; then
+  cp ../doc/form.1 doc/form.1
+else
+  # In newer FORM revisions, the man page is generated from its source.
+  # See: https://github.com/form-dev/form/pull/871
+  make -C doc form.1
+fi
+man -Tpdf doc/form.1 >doc/form.pdf
 mkdir -p doc/man1
-man -Thtml ../doc/form.1 >doc/man1/index.html
+man -Thtml doc/form.1 >doc/man1/index.html
 
 if $dev; then
   make -C doc/devref pdf
